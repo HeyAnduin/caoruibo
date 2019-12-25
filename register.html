@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bootstrap Dashboard</title>
+    <title>注册页面</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -30,36 +30,176 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
   </head>
   <body>
+        <!-- 注册的验证 -->
+        <script >
+    function verifyUser() {
+        var str = document.getElementById("username").value;
+        if(str == null || str == ""){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function verifyPsw() {
+        var str = document.getElementById("password").value;
+        if(str == null || str == ""){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function verifyName(){
+        var str=document.getElementById("register-username").value;
+        var reg = /^[\u2E80-\u9FFF]+$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            document.getElementById("register-usernameErr").innerHTML="请不要空着";
+            return false;
+        }
+    }
+
+    function verifyJob(){
+        var str=document.getElementById("register-job").value;
+        // var reg = /^2019020((0\d{2})|(10\d)|(11[01]))$/;
+        var reg = /^2019020[0-9]{3}$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            document.getElementById("register-jobErr").innerHTML="例：2019020xxx";
+            return false;
+        }
+    }
+
+    function verifyConfirm(){
+        var str=document.getElementById("register-password").value;
+        var str_c=document.getElementById("register-password2").value;
+        if(str == str_c){
+            return true;
+        }else{
+            document.getElementById("passwordErr").innerHTML="与密码输入不一致！";
+            return false;
+        }
+    }
+
+    function verifyID(){
+      var str=document.getElementById("register-id").value;
+        // var reg = /^2019020((0\d{2})|(10\d)|(11[01]))$/;
+        var reg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            document.getElementById("idErr").innerHTML="身份证输错了，sb";
+            return false;
+        }
+    }
+
+    function verifyEmail(){
+        var str=document.getElementById("register-email").value;
+        var reg=/^([a-z|A-Z|0-9|_])+@([a-z|A-Z|0-9|_])+\.com|edu|cn|net$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+
+            document.getElementById("emailErr").innerHTML="邮箱格式有误，请按要求输入";
+            return false;
+        }
+    }
+
+    function verifyAge(){
+        var str=new Date;
+        var reg=/^([a-z|A-Z|0-9|_])+@([a-z|A-Z|0-9|_])+\.com|edu|cn|net$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+
+            document.getElementById("ageErr").innerHTML="您是王八活这么大？";
+            return false;
+        }
+    }
+
+    //所有输入框都通过验证后方可按下注册按钮
+    function check() {
+        var list = new Array();
+        var i = 0;
+        list[0] = verifyID();
+        list[1] = verifyName();
+        list[2] = verifyConfirm();
+        list[3] = verifyEmail();
+        list[4] = verifyUser();
+        list[5] = verifyPsw();
+        list[6] = verifyJob(); 
+        for (i=0;i<7;i++){
+            if (list[i] == false){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //清空输入框
+    function clearScreen(nameval){
+        document.getElementById(nameval).style="none";
+        document.getElementById(nameval).innerHTML="";
+    }
+
+    </script>
+    <!-- 注册页面 -->
     <div class="page login-page">
       <div class="container">
         <div class="form-outer text-center d-flex align-items-center">
           <div class="form-inner">
-            <div class="logo text-uppercase"><span>Dash</span><strong class="text-primary">Express</strong></div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+            <div class="logo text-uppercase"><strong class="text-primary">学生竞赛成果管理系统</strong></div>
             <form class="text-left form-validate">
               <div class="form-group-material">
-                <input id="register-username" type="text" name="registerUsername" required data-msg="Please enter your username" class="input-material">
-                <label for="register-username" class="label-material">Username</label>
+                <input id="register-username" type="text" name="registerUsername" onblur="verifyName()" onfocus="clearScreen('register-usernameErr')"required data-msg="用户名不为空" class="input-material">
+                <label for="register-username" class="label-material">姓名</label>
+                <div id="register-usernameErr" class="register-usernameTxt"></div>
               </div>
               <div class="form-group-material">
-                <input id="register-email" type="email" name="registerEmail" required data-msg="Please enter a valid email address" class="input-material">
-                <label for="register-email" class="label-material">Email Address      </label>
+                <input id="register-password" type="password" name="registerPassword" required data-msg="密码不为空" class="input-material">
+                <label for="register-password" class="label-material">密码</label>
               </div>
               <div class="form-group-material">
-                <input id="register-password" type="password" name="registerPassword" required data-msg="Please enter your password" class="input-material">
-                <label for="register-password" class="label-material">Password        </label>
+                <input id="register-password2" type="password" name="registerPassword2"onblur="verifyConfirm()"onfocus="clearScreen(passwordErr)" required data-msg="密码不为空" class="input-material">
+                <label for="register-password2" class="label-material">确认密码</label>
+                <div id="passwordErr" class="register-passwordErr"></div>
               </div>
-              <div class="form-group terms-conditions text-center">
-                <input id="register-agree" name="registerAgree" type="checkbox" required value="1" data-msg="Your agreement is required" class="form-control-custom">
-                <label for="register-agree">I agree with the terms and policy</label>
+              <div class="form-group-material">
+                <input id="register-job" type="text" name="registerJob" onblur="verifyJob()" onfocus="clearScreen('register-jobErr')" required data-msg="请输入工号" class="input-material">
+                <label for="register-job" class="label-material">工号</label>
+                <div id="register-jobErr" class="register-jobTXT"></div>
+              </div>
+              <div class="form-group-material">
+                <input id="register-id" type="text" name="registerId" onblur="verifyID()" onfocus="clearScreen('idErr')" required data-msg="请输入身份证号" class="input-material">
+                <label for="register-id" class="label-material">身份证号</label>
+                <div id="idErr" class="idErrTXT"></div>
+              </div>
+              <div class="form-group-material">
+                <input id="register-email" type="text" name="registerEmail" onblur="verifyEmail()"onfocus="clearScreen('emailErr')" required data-msg="请输入邮箱信息" class="input-material">
+                <label for="register-email" class="label-material">电子邮箱</label>
+                <div class="emailErrTxT" id="emailErr"></div>
+              </div>
+              <div class="form-group-material">
+                <input id="register-age" type="text" name="registerAge" onblur="" required data-msg="请输入您的年龄" class="input-material">
+                <label for="register-age" class="label-material">年龄</label>
+                <div id="ageErr" class="ageErr"></div>
+              </div>
+              <div class="form-group-material">
+                <input id="register-phone" type="text" name="registerPhone" required data-msg="请输入您的电话号码" class="input-material">
+                <label for="register-phone" class="label-material">电话号码</label>
               </div>
               <div class="form-group text-center">
-                <input id="register" type="submit" value="Register" class="btn btn-primary">
+                <input id="register" type="submit" value="注册" class="btn btn-primary">
               </div>
-            </form><small>Already have an account? </small><a href="login.html" class="signup">Login</a>
+            </form><small>账号已存在？</small><a href="login.html" class="signup">点此登录</a>
           </div>
           <div class="copyrights text-center">
-            <p>Design by Bootstrapious</p>
+
             
           </div>
         </div>
