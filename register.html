@@ -31,7 +31,7 @@
   </head>
   <body>
         <!-- 注册的验证 -->
-        <script >
+<script >
     function verifyUser() {
         var str = document.getElementById("username").value;
         if(str == null || str == ""){
@@ -88,7 +88,6 @@
 
     function verifyID(){
       var str=document.getElementById("register-id").value;
-        // var reg = /^2019020((0\d{2})|(10\d)|(11[01]))$/;
         var reg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
         if(reg.test(str)){
             return true;
@@ -111,15 +110,18 @@
     }
 
     function verifyAge(){
-        var str=new Date;
-        var reg=/^([a-z|A-Z|0-9|_])+@([a-z|A-Z|0-9|_])+\.com|edu|cn|net$/;
-        if(reg.test(str)){
-            return true;
-        }else{
-
-            document.getElementById("ageErr").innerHTML="您是王八活这么大？";
-            return false;
-        }
+        var str=document.getElementById("register-id").value;
+        var myDate=new Date();
+        var age = myDate.getFullYear() - parseInt(str.substring(6,10));
+        document.getElementById("register-age").parentNode.children[1].classList.add("active");
+        document.getElementById("register-age").value = age;
+    }
+    function verifyPhone(){
+        var str=document.getElementById('register-phone').value;
+        if(!(/^1[3456789]\d{9}$/.test(str))){ 
+        document.getElementById("phoneErr").innerHTML="您这就不是电话号码";
+        return false; 
+    } 
     }
 
     //所有输入框都通过验证后方可按下注册按钮
@@ -175,23 +177,23 @@
                 <div id="register-jobErr" class="register-jobTXT"></div>
               </div>
               <div class="form-group-material">
-                <input id="register-id" type="text" name="registerId" onblur="verifyID()" onfocus="clearScreen('idErr')" required data-msg="请输入身份证号" class="input-material">
+                <input id="register-id" type="text" name="registerId" onblur="verifyID()" onfocus="clearScreen('idErr')" onchange="verifyAge()" required data-msg="请输入身份证号" class="input-material">
                 <label for="register-id" class="label-material">身份证号</label>
                 <div id="idErr" class="idErrTXT"></div>
               </div>
               <div class="form-group-material">
                 <input id="register-email" type="text" name="registerEmail" onblur="verifyEmail()"onfocus="clearScreen('emailErr')" required data-msg="请输入邮箱信息" class="input-material">
                 <label for="register-email" class="label-material">电子邮箱</label>
-                <div class="emailErrTxT" id="emailErr"></div>
+                <div id="emailErr" class="emailErrTxT"></div>
               </div>
               <div class="form-group-material">
-                <input id="register-age" type="text" name="registerAge" onblur="" required data-msg="请输入您的年龄" class="input-material">
+                <input id="register-age" type="text" name="registerAge"  required data-msg="请输入您的年龄" class="input-material">
                 <label for="register-age" class="label-material">年龄</label>
-                <div id="ageErr" class="ageErr"></div>
               </div>
               <div class="form-group-material">
-                <input id="register-phone" type="text" name="registerPhone" required data-msg="请输入您的电话号码" class="input-material">
+                <input id="register-phone" type="text" name="registerPhone" onblur="verifyPhone()"onfocus="clearScreen('phoneErr')" required data-msg="请输入您的电话号码" class="input-material">
                 <label for="register-phone" class="label-material">电话号码</label>
+                <div id="phoneErr" class="phoneTXT"></div>
               </div>
               <div class="form-group text-center">
                 <input id="register" type="submit" value="注册" class="btn btn-primary">
